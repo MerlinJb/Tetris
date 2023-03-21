@@ -92,7 +92,7 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
         
-        System.out.println("är inuti checkactive och nextshape");
+        //System.out.println("är inuti checkactive och nextshape");
         switch (nextShape.get(0)) {
             case 0: case 1: case 2: case 3: //TODO ÄNDRA ORDNINGEN PÅ BLOCKEN, SÅ ATT DEM ÄR I DEN RANGORDNINGEN.
                 tShape.resetShape();
@@ -192,7 +192,7 @@ public class GamePanel extends JPanel implements ActionListener {
     
     }
     public static void addToRow(ArrayList<Square> list) {
-        System.out.println("add to row");
+        //System.out.println("add to row");
         for (Row row : rows) {
             for (Square square : list) {
                 if (row.intersects(new Rectangle(square.getCoordX(), square.getCoordY(), UNIT_SIZE, UNIT_SIZE))) {

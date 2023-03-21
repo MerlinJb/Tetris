@@ -21,7 +21,7 @@ public abstract class ShapeModel {
     }
 
     public void moveDown(ArrayList<Square> squares) {
-        System.out.println("moved down");
+        //System.out.println("moved down");
         while (!checkCollisionGround(squares, GamePanel.getRows())) {
             for (Square square : squares) {
                 square.moveDown();
@@ -132,10 +132,10 @@ public abstract class ShapeModel {
                 //TODO HOLDING FEATURE.
                 break;
             case KeyEvent.VK_SPACE:
-                System.out.println("pressed space");
+                //System.out.println("pressed space");
                 if (GamePanel.getReady()) {
                     GamePanel.setReady(false);
-                    System.out.println("accepted typed space");
+                    //System.out.println("accepted typed space");
                     moveDown(squares);
 
                 }
