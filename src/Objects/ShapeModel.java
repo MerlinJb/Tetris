@@ -1,12 +1,9 @@
 package Objects;
 
 import Main.GamePanel;
-//import Objects.Row;
-//import Objects.Square;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-
 import static Main.GamePanel.UNIT_SIZE;
 import static Main.GamePanel.getRows;
 
@@ -24,11 +21,13 @@ public abstract class ShapeModel {
     }
 
     public void moveDown(ArrayList<Square> squares) {
+        System.out.println("moved down");
         while (!checkCollisionGround(squares, GamePanel.getRows())) {
             for (Square square : squares) {
                 square.moveDown();
             }
         }
+        //active = false;
         GamePanel.addToRow(squares);
     }
 
@@ -81,16 +80,18 @@ public abstract class ShapeModel {
         }
     }
 
-    public boolean move(ArrayList<Square> squares, boolean active, ArrayList<Row> rows) {
-        for (Square square : squares) {
-            if (square.checkGroundCollision()) {
-                return true;
-            }
-            for (Row row : rows) {
-                for (Square square2 : row.getSquares()) {
-                    if (new Rectangle(square.getCoordX(), (square.getCoordY()+UNIT_SIZE), UNIT_SIZE, UNIT_SIZE)
-                            .intersects(square2.getCoordX(), square2.getCoordY(), UNIT_SIZE, UNIT_SIZE)) {
-                        return true;
+    public boolean move(ArrayList<Square> squares, boolean bool, ArrayList<Row> rows) {
+        if (bool) {
+            for (Square square : squares) {
+                if (square.checkGroundCollision()) {
+                    return true;
+                }
+                for (Row row : rows) {
+                    for (Square square2 : row.getSquares()) {
+                        if (new Rectangle(square.getCoordX(), (square.getCoordY()+UNIT_SIZE), UNIT_SIZE, UNIT_SIZE)
+                                .intersects(square2.getCoordX(), square2.getCoordY(), UNIT_SIZE, UNIT_SIZE)) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -131,14 +132,21 @@ public abstract class ShapeModel {
                 //TODO HOLDING FEATURE.
                 break;
             case KeyEvent.VK_SPACE:
-                active = false;
-                moveDown(squares);
+                System.out.println("pressed space");
+                if (GamePanel.getReady()) {
+                    GamePanel.setReady(false);
+                    System.out.println("accepted typed space");
+                    moveDown(squares);
+
+                }
                 break;
         }
     }
 
-    public abstract void rotate();
 
+
+
+    public abstract void rotate();
     
     public boolean getActive() {
         return active;
@@ -146,7 +154,6 @@ public abstract class ShapeModel {
     public void setActive(boolean value) {
         active = value;
     }
-
     public ArrayList<Square> getSquares() {
         return squares;
     }

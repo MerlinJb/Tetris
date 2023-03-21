@@ -38,7 +38,7 @@ public class Row extends Rectangle{
 
     public void addToRow(Square square) {
         squares.add(new Square(square.getId(), square.getCoordX(), square.getCoordY()));
-        //4
+        System.out.println("added " + square + " at " + square.getCoordX() + " " + square.getCoordY());
     }
 
     public ArrayList<Square> getSquares() {

@@ -22,7 +22,6 @@ public class GamePanel extends JPanel implements ActionListener {
     public int moving = 0;
 
     private Score score;
-    private static boolean ready = false;
 
     public static final Point startPoint = new Point(UNIT_SIZE*2, UNIT_SIZE);
     public static final Point endPoint = new Point(UNIT_SIZE*12, UNIT_SIZE*20);
@@ -41,8 +40,9 @@ public class GamePanel extends JPanel implements ActionListener {
     private static SShape sShape;
 
     private static ArrayList<Integer> nextShape = new ArrayList<>();
-
     private static ArrayList<ShapeModel> shapes = new ArrayList<>();
+
+    private static boolean ready = true;
 
     GamePanel() {
         this.setPreferredSize(window);
@@ -86,41 +86,45 @@ public class GamePanel extends JPanel implements ActionListener {
         return random.nextInt(8+1);
     }
     public static void newShape() {
-        if (!checkActives()) {
-            ready = false;
-            switch (nextShape.get(0)) {
-                case 0: case 1: case 2: case 3: //TODO ÄNDRA ORDNINGEN PÅ BLOCKEN, SÅ ATT DEM ÄR I DEN RANGORDNINGEN.
-                    tShape.resetShape();
-                    tShape.setActive(true);
-                    break;
-                case 4: case 5: case 6: case 7: case 8:
-                    zShape.resetShape();
-                    zShape.setActive(true);
-                    break;
-                case 9: case 10: case 11: case 12: case 13:
-                    oShape.resetShape();
-                    oShape.setActive(true);
-                    break;
-                case 14: case 15: case 16: case 17: case 18:
-                    iShape.resetShape();
-                    iShape.setActive(true);
-                    break;
-                case 19: case 20: case 21: case 22: case 23:
-                    jShape.resetShape();
-                    jShape.setActive(true);
-                    break;
-                case 24: case 25: case 26: case 27:
-                    lShape.resetShape();
-                    lShape.setActive(true);
-                    break;
-                case 28: case 29: case 30:
-                    sShape.resetShape();
-                    sShape.setActive(true);
-                    break;
+        for (ShapeModel shape : shapes) {
+            if (shape.getActive()) {
+                shape.setActive(false);
             }
-            nextShape.remove(0);
-            nextShape.add(nextShape());
         }
+        
+        System.out.println("är inuti checkactive och nextshape");
+        switch (nextShape.get(0)) {
+            case 0: case 1: case 2: case 3: //TODO ÄNDRA ORDNINGEN PÅ BLOCKEN, SÅ ATT DEM ÄR I DEN RANGORDNINGEN.
+                tShape.resetShape();
+                tShape.setActive(true);
+                break;
+            case 4: case 5: case 6: case 7: case 8:
+                zShape.resetShape();
+                zShape.setActive(true);
+                break;
+            case 9: case 10: case 11: case 12: case 13:
+                oShape.resetShape();
+                oShape.setActive(true);
+                break;
+            case 14: case 15: case 16: case 17: case 18:
+                iShape.resetShape();
+                iShape.setActive(true);
+                break;
+            case 19: case 20: case 21: case 22: case 23:
+                jShape.resetShape();
+                jShape.setActive(true);
+                break;
+            case 24: case 25: case 26: case 27:
+                lShape.resetShape();
+                lShape.setActive(true);
+                break;
+            case 28: case 29: case 30:
+                sShape.resetShape();
+                sShape.setActive(true);
+                break;
+        }
+        nextShape.remove(0);
+        nextShape.add(nextShape());
     }
 
     public static boolean checkActives() {
@@ -139,47 +143,13 @@ public class GamePanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (moving%10 == 0){
-            if (tShape.getActive()) {
-                if (tShape.move(tShape.getSquares(), tShape.getActive(), rows)) {
-                    tShape.setActive(false);
-                    addToRow(tShape.getSquares());
-                }
-            }
-            else if (zShape.getActive()) {
-               if (zShape.move(zShape.getSquares(), zShape.getActive(), rows)) {
-                   zShape.setActive(false);
-                   addToRow(zShape.getSquares());
-               }
-            }
-            else if (oShape.getActive()) {
-                if (oShape.move(oShape.getSquares(), oShape.getActive(), rows)) {
-                    oShape.setActive(false);
-                    addToRow(oShape.getSquares());
-                }
-            }
-            else if (iShape.getActive()) {
-                if (iShape.move(iShape.getSquares(), iShape.getActive(), rows)) {
-                    iShape.setActive(false);
-                    addToRow(iShape.getSquares());
-                }
-            }
-            else if (jShape.getActive()) {
-                if (jShape.move(jShape.getSquares(), jShape.getActive(), rows)) {
-                    jShape.setActive(false);
-                    addToRow(jShape.getSquares());
-                }
-            }
-            else if (lShape.getActive()) {
-                if (lShape.move(lShape.getSquares(), lShape.getActive(), rows)) {
-                    lShape.setActive(false);
-                    addToRow(lShape.getSquares());
-                }
-                //todo kan nog göra en funktion så jag inte behöver skriva den här sekvenser gång på gång
-            }
-            else if (sShape.getActive()) {
-                if (sShape.move(sShape.getSquares(), sShape.getActive(), rows)) {
-                    sShape.setActive(false);
-                    addToRow(sShape.getSquares());
+            System.out.println("round");
+
+            for (ShapeModel shape : shapes) {
+                if (shape.move(shape.getSquares(), shape.getActive(), rows)) {
+                    shape.setActive(false);
+                    addToRow(shape.getSquares());
+                    break;
                 }
             }
 
@@ -219,8 +189,10 @@ public class GamePanel extends JPanel implements ActionListener {
             }
             System.out.println("score: " + score.getScore());
         }
+    
     }
     public static void addToRow(ArrayList<Square> list) {
+        System.out.println("add to row");
         for (Row row : rows) {
             for (Square square : list) {
                 if (row.intersects(new Rectangle(square.getCoordX(), square.getCoordY(), UNIT_SIZE, UNIT_SIZE))) {
@@ -228,7 +200,6 @@ public class GamePanel extends JPanel implements ActionListener {
                 }
             }
         }
-        //ready = true;
         /*
         for (Row row : rows) {
             System.out.println(row.getSquares().size());
@@ -259,76 +230,40 @@ public class GamePanel extends JPanel implements ActionListener {
             row.draw(g);
         }
 
-        if (tShape.getActive()) {
-            tShape.draw(g, tShape.getSquares());
-        }
-        else if (zShape.getActive()){
-            zShape.draw(g, zShape.getSquares());
-        }
-        else if (oShape.getActive()){
-            oShape.draw(g, oShape.getSquares());
-        }
-        else if (iShape.getActive()){
-            iShape.draw(g, iShape.getSquares());
-        }
-        else if (jShape.getActive()){
-            jShape.draw(g, jShape.getSquares());
-        }
-        else if (lShape.getActive()){
-            lShape.draw(g, lShape.getSquares());
-        }
-        else if (sShape.getActive()){
-            sShape.draw(g, sShape.getSquares());
+        for (ShapeModel shape : shapes) {
+            if (shape.getActive()) {
+                shape.draw(g, shape.getSquares());
+                break;
+            }
+            
         }
     }
     public class MyKeyAdapter extends KeyAdapter {
         public void keyPressed(KeyEvent e) {
-
             for (ShapeModel shape : shapes) {
-                System.out.println(shape.getActive());
                 if (shape.getActive()) {
                     shape.keyPressed(e, shape.getSquares(), rows);
                 }
             }
 
-/*
-
-            if (tShape.getActive()) {
-                tShape.keyPressed(e);
-                tShape.keyPressed(e, tShape.getSquares(), rows);
+        }
+        public void keyReleased(KeyEvent e) {
+            System.out.println("released");
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                System.out.println("changing to true");
+                ready = true;
+                
             }
-            else if (zShape.getActive()) {
-                zShape.keyPressed(e);
-                zShape.keyPressed(e, zShape.getSquares(), rows);
-            }
-            else if (oShape.getActive()) {
-                oShape.keyPressed(e);
-                oShape.keyPressed(e, oShape.getSquares(), rows);
-            }
-            else if (iShape.getActive()) {
-                iShape.keyPressed(e);
-                iShape.keyPressed(e, iShape.getSquares(), rows);
-            }
-            else if (jShape.getActive()) {
-                jShape.keyPressed(e);
-                jShape.keyPressed(e, jShape.getSquares(), rows);
-            }
-            else if (lShape.getActive()) {
-                lShape.keyPressed(e);
-                lShape.keyPressed(e, lShape.getSquares(), rows);
-            }
-            else if (sShape.getActive()) {
-                sShape.keyPressed(e);
-                sShape.keyPressed(e, sShape.getSquares(), rows);
-            }
-            //rada upp alla olika shapes för att se vilken av dem som är igång. med else if
-             */
-
+            //System.out.println(ready);
         }
     }
 
+
     public static ArrayList<Row> getRows() {
         return rows;
+    }
+    public static boolean getReady() {
+        return ready;
     }
     public static void setReady(boolean bool) {
         ready = bool;
