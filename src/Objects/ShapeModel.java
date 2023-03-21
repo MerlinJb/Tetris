@@ -10,12 +10,18 @@ import java.util.ArrayList;
 import static Main.GamePanel.UNIT_SIZE;
 import static Main.GamePanel.getRows;
 
-public class ShapeModel {
+public abstract class ShapeModel {
 
     protected ArrayList<Square> squares;
     protected boolean active;
     protected int rotatePosition;
     protected int startX, startY;
+
+    public ShapeModel(boolean hexagon){
+        active = hexagon;
+        squares = new ArrayList<>();
+        rotatePosition = 0;
+    }
 
     public void moveDown(ArrayList<Square> squares) {
         while (!checkCollisionGround(squares, GamePanel.getRows())) {
@@ -100,6 +106,9 @@ public class ShapeModel {
 
     public void keyPressed(KeyEvent e, ArrayList<Square> squares, ArrayList<Row> rows) {
         switch(e.getKeyCode()) {
+            case KeyEvent.VK_R: case KeyEvent.VK_UP:
+                rotate();
+                break;
             case KeyEvent.VK_DOWN:
                 if (!checkCollisionGround(squares, getRows())) {
                     for (Square square : squares) {
@@ -122,9 +131,24 @@ public class ShapeModel {
                 //TODO HOLDING FEATURE.
                 break;
             case KeyEvent.VK_SPACE:
+                active = false;
                 moveDown(squares);
                 break;
         }
+    }
+
+    public abstract void rotate();
+
+    
+    public boolean getActive() {
+        return active;
+    }
+    public void setActive(boolean value) {
+        active = value;
+    }
+
+    public ArrayList<Square> getSquares() {
+        return squares;
     }
 
 }

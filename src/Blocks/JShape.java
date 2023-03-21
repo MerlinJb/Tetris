@@ -2,24 +2,25 @@ package Blocks;
 
 import Objects.ShapeModel;
 import Objects.Square;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+//import java.awt.event.KeyEvent;
+//import java.util.ArrayList;
 import static Main.GamePanel.UNIT_SIZE;
 
 public class JShape extends ShapeModel {
-
+/*
     private ArrayList<Square> squares;
     private boolean active;
     private int rotatePosition;
     private int startX, startY;
-
-    public JShape(int startX, int startY) {
-        squares = new ArrayList<>();
+ */
+    public JShape(boolean hexagon, int startX, int startY) {
+        super(hexagon);
+        //squares = new ArrayList<>();
         this.startX = startX;
         this.startY = startY;
         addSquares();
-        active = false;
-        rotatePosition = 0;
+        //active = false;
+        //rotatePosition = 0;
 
     }
     public void addSquares() {
@@ -29,6 +30,7 @@ public class JShape extends ShapeModel {
         squares.add(new Square( 6, startX+UNIT_SIZE, startY+UNIT_SIZE));
     }
 
+    @Override
     public void rotate() {
         //todo effektivisera så att jag kanske kan ha funktionen i shapemodel
 
@@ -82,7 +84,7 @@ public class JShape extends ShapeModel {
                 break;
         }
     }
-
+/*
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
             case KeyEvent.VK_UP: case KeyEvent.VK_R:
@@ -93,7 +95,7 @@ public class JShape extends ShapeModel {
                 break;
         }
     }
-
+ */
     public void resetShape() {
         rotatePosition = 0;
         squares.get(0).move(startX-UNIT_SIZE, startY);
@@ -101,7 +103,7 @@ public class JShape extends ShapeModel {
         squares.get(2).move(startX, startY+UNIT_SIZE);
         squares.get(3).move(startX+UNIT_SIZE, startY+UNIT_SIZE);
     }
-
+/*
     public boolean getActive() {
         return active;
     }
@@ -111,5 +113,5 @@ public class JShape extends ShapeModel {
 
     public ArrayList<Square> getSquares() {
         return squares;
-    }
+    } */
 }

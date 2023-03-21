@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import Objects.Row;
 import Objects.Score;
-//import Objects.ShapeModel;
+import Objects.ShapeModel;
 import Objects.Square;
 import Blocks.*;
 
@@ -22,6 +22,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public int moving = 0;
 
     private Score score;
+    private static boolean ready = false;
 
     public static final Point startPoint = new Point(UNIT_SIZE*2, UNIT_SIZE);
     public static final Point endPoint = new Point(UNIT_SIZE*12, UNIT_SIZE*20);
@@ -41,7 +42,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private static ArrayList<Integer> nextShape = new ArrayList<>();
 
-    //private static ArrayList<ShapeModel> shapes = new ArrayList<>();
+    private static ArrayList<ShapeModel> shapes = new ArrayList<>();
 
     GamePanel() {
         this.setPreferredSize(window);
@@ -56,17 +57,18 @@ public class GamePanel extends JPanel implements ActionListener {
         addRows();
         addNextShapes();
 
-        //shapes.add(lShape);
     }
 
     public void addShapes() {
-        tShape = new TShape(shapeStartX, shapeStartY);
-        zShape = new ZShape(shapeStartX, shapeStartY);
-        oShape = new OShape(shapeStartX, shapeStartY);
-        iShape = new IShape(shapeStartX, shapeStartY);
-        jShape = new JShape(shapeStartX, shapeStartY);
-        lShape = new LShape(shapeStartX, shapeStartY);
-        sShape = new SShape(shapeStartX, shapeStartY);
+        tShape = new TShape(true, shapeStartX, shapeStartY);
+        zShape = new ZShape(false, shapeStartX, shapeStartY);
+        oShape = new OShape(false, shapeStartX, shapeStartY);
+        iShape = new IShape(false, shapeStartX, shapeStartY);
+        jShape = new JShape(false, shapeStartX, shapeStartY);
+        lShape = new LShape(false, shapeStartX, shapeStartY);
+        sShape = new SShape(false, shapeStartX, shapeStartY);
+        shapes.add(tShape);
+        shapes.add(zShape);
     }
     public void addRows() {
         for (int i = 0; i < 20; i++) {
@@ -84,38 +86,50 @@ public class GamePanel extends JPanel implements ActionListener {
         return random.nextInt(8+1);
     }
     public static void newShape() {
-        switch (nextShape.get(0)) {
-            case 0: case 1: case 2: case 3: //TODO ÄNDRA ORDNINGEN PÅ BLOCKEN, SÅ ATT DEM ÄR INTE DEN RANGORDNINGEN.
-                tShape.resetShape();
-                tShape.setActive(true);
-                break;
-            case 4: case 5: case 6: case 7: case 8:
-                zShape.resetShape();
-                zShape.setActive(true);
-                break;
-            case 9: case 10: case 11: case 12: case 13:
-                oShape.resetShape();
-                oShape.setActive(true);
-                break;
-            case 14: case 15: case 16: case 17: case 18:
-                iShape.resetShape();
-                iShape.setActive(true);
-                break;
-            case 19: case 20: case 21: case 22: case 23:
-                jShape.resetShape();
-                jShape.setActive(true);
-                break;
-            case 24: case 25: case 26: case 27:
-                lShape.resetShape();
-                lShape.setActive(true);
-                break;
-            case 28: case 29: case 30:
-                sShape.resetShape();
-                sShape.setActive(true);
-                break;
+        if (!checkActives()) {
+            ready = false;
+            switch (nextShape.get(0)) {
+                case 0: case 1: case 2: case 3: //TODO ÄNDRA ORDNINGEN PÅ BLOCKEN, SÅ ATT DEM ÄR I DEN RANGORDNINGEN.
+                    tShape.resetShape();
+                    tShape.setActive(true);
+                    break;
+                case 4: case 5: case 6: case 7: case 8:
+                    zShape.resetShape();
+                    zShape.setActive(true);
+                    break;
+                case 9: case 10: case 11: case 12: case 13:
+                    oShape.resetShape();
+                    oShape.setActive(true);
+                    break;
+                case 14: case 15: case 16: case 17: case 18:
+                    iShape.resetShape();
+                    iShape.setActive(true);
+                    break;
+                case 19: case 20: case 21: case 22: case 23:
+                    jShape.resetShape();
+                    jShape.setActive(true);
+                    break;
+                case 24: case 25: case 26: case 27:
+                    lShape.resetShape();
+                    lShape.setActive(true);
+                    break;
+                case 28: case 29: case 30:
+                    sShape.resetShape();
+                    sShape.setActive(true);
+                    break;
+            }
+            nextShape.remove(0);
+            nextShape.add(nextShape());
         }
-        nextShape.remove(0);
-        nextShape.add(nextShape());
+    }
+
+    public static boolean checkActives() {
+        for(ShapeModel shape : shapes) {
+            if (shape.getActive()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //TODO MIRRORING TECHNIC FÖR ATT SE VART BLOCKET KOMMER ATT LANDA NÅGONSTANS.
@@ -214,6 +228,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 }
             }
         }
+        //ready = true;
         /*
         for (Row row : rows) {
             System.out.println(row.getSquares().size());
@@ -269,6 +284,15 @@ public class GamePanel extends JPanel implements ActionListener {
     public class MyKeyAdapter extends KeyAdapter {
         public void keyPressed(KeyEvent e) {
 
+            for (ShapeModel shape : shapes) {
+                System.out.println(shape.getActive());
+                if (shape.getActive()) {
+                    shape.keyPressed(e, shape.getSquares(), rows);
+                }
+            }
+
+/*
+
             if (tShape.getActive()) {
                 tShape.keyPressed(e);
                 tShape.keyPressed(e, tShape.getSquares(), rows);
@@ -298,11 +322,15 @@ public class GamePanel extends JPanel implements ActionListener {
                 sShape.keyPressed(e, sShape.getSquares(), rows);
             }
             //rada upp alla olika shapes för att se vilken av dem som är igång. med else if
+             */
 
         }
     }
 
     public static ArrayList<Row> getRows() {
         return rows;
+    }
+    public static void setReady(boolean bool) {
+        ready = bool;
     }
 }

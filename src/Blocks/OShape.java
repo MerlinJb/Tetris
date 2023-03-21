@@ -2,30 +2,36 @@ package Blocks;
 
 import Objects.ShapeModel;
 import Objects.Square;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+//import java.awt.event.KeyEvent;
+//import java.util.ArrayList;
 import static Main.GamePanel.UNIT_SIZE;
 
 public class OShape extends ShapeModel {
-
+ /*
     private ArrayList<Square> squares;
     private boolean active;
     //private int rotatePosition;
     private int startX, startY;
-
-    public OShape(int startX, int startY) {
-        squares = new ArrayList<>();
+ */
+    public OShape(boolean hexagon, int startX, int startY) {
+        super(hexagon);
+        //squares = new ArrayList<>();
         this.startX = startX;
         this.startY = startY;
         addSquares();
-        active = false;
-        rotatePosition = 0;
+        //active = false;
+        //rotatePosition = 0;
     }
     public void addSquares() {
         squares.add(new Square(2, startX, startY));
         squares.add(new Square(2, startX+UNIT_SIZE, startY));
         squares.add(new Square(2, startX, startY+UNIT_SIZE));
         squares.add(new Square( 2, startX+UNIT_SIZE, startY+UNIT_SIZE));
+    }
+
+    @Override
+    public void rotate() {
+        System.out.println("rotate");
     }
 
     /*
@@ -66,6 +72,7 @@ public class OShape extends ShapeModel {
     }
      */
 
+    /*
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
             case KeyEvent.VK_UP: case KeyEvent.VK_R:
@@ -75,7 +82,7 @@ public class OShape extends ShapeModel {
                 active = false;
                 break;
         }
-    }
+    } */
 
     public void resetShape() {
         rotatePosition = 0;
@@ -84,7 +91,7 @@ public class OShape extends ShapeModel {
         squares.get(2).move(startX, startY+UNIT_SIZE);
         squares.get(3).move(startX+UNIT_SIZE, startY+UNIT_SIZE);
     }
-
+/*
     public boolean getActive() {
         return active;
     }
@@ -94,5 +101,5 @@ public class OShape extends ShapeModel {
 
     public ArrayList<Square> getSquares() {
         return squares;
-    }
+    } */
 }

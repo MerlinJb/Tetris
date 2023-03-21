@@ -2,24 +2,25 @@ package Blocks;
 
 import Objects.ShapeModel;
 import Objects.Square;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
+//import java.awt.event.KeyEvent;
+//import java.util.ArrayList;
 import static Main.GamePanel.UNIT_SIZE;
 
 public class SShape extends ShapeModel {
-
+/*
     private ArrayList<Square> squares;
     private boolean active;
     private int rotatePosition;
     private int startX, startY;
-
-    public SShape(int startX, int startY) {
-        squares = new ArrayList<>();
+ */
+    public SShape(boolean hexagon, int startX, int startY) {
+        super(hexagon);
+        //squares = new ArrayList<>();
         this.startX = startX;
         this.startY = startY;
         addSquares();
-        active = false;
-        rotatePosition = 0;
+        //active = false;
+        //rotatePosition = 0;
     }
     public void addSquares() {
         squares.add(new Square(4, startX, startY));
@@ -72,7 +73,7 @@ public class SShape extends ShapeModel {
                 break;
         }
     }
-
+/* 
     public void keyPressed(KeyEvent e) {
         switch(e.getKeyCode()) {
             case KeyEvent.VK_UP: case KeyEvent.VK_R:
@@ -82,7 +83,7 @@ public class SShape extends ShapeModel {
                 active = false;
                 break;
         }
-    }
+    }*/
 
     public void resetShape() {
         rotatePosition = 0;
@@ -91,7 +92,7 @@ public class SShape extends ShapeModel {
         squares.get(2).move(startX-UNIT_SIZE, startY+UNIT_SIZE);
         squares.get(3).move(startX, startY+UNIT_SIZE);
     }
-
+/*
     public boolean getActive() {
         return active;
     }
@@ -102,5 +103,5 @@ public class SShape extends ShapeModel {
     public ArrayList<Square> getSquares() {
         return squares;
     }
-
+     */
 }
