@@ -2,29 +2,15 @@ package Blocks;
 
 import Objects.ShapeModel;
 import Objects.Square;
-//import java.awt.event.KeyEvent;
-//import java.util.ArrayList;
 import static Main.GamePanel.UNIT_SIZE;
 
 public class ZShape extends ShapeModel {
 
-    /*
-    private ArrayList<Square> squares;
-    private boolean active;
-    private int rotatePosition;
-    private int startX, startY;
-
-     */
-
-    public ZShape(boolean hexagon, int startX, int startY) {
-        super(hexagon);
-
-        //squares = new ArrayList<>();
+    public ZShape(boolean active, int startX, int startY) {
+        super(active);
         this.startX = startX;
         this.startY = startY;
         addSquares();
-        //active = false;
-        //rotatePosition = 0;
     }
     public void addSquares() {
         squares.add(new Square(5, startX, startY));
@@ -40,7 +26,7 @@ public class ZShape extends ShapeModel {
 
         switch(rotatePosition) {
             case 0:
-                if (checkCollisionWall(squares) == 1) {
+                if (checkCollisionWall() == 1) {
                     for (Square square : squares) {
                         square.moveLeft();
                     }
@@ -59,7 +45,7 @@ public class ZShape extends ShapeModel {
                 squares.get(2).moveDown();
                 break;
             case 2:
-                if (checkCollisionWall(squares) == 0) {
+                if (checkCollisionWall() == 0) {
                     for (Square square : squares) {
                         square.moveRight();
                     }
@@ -79,17 +65,6 @@ public class ZShape extends ShapeModel {
                 break;
         }
     }
- /*
-    public void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()) {
-            case KeyEvent.VK_UP: case KeyEvent.VK_R:
-                rotate();
-                break;
-            case KeyEvent.VK_SPACE:
-                active = false;
-                break;
-        }
-    } */
 
     public void resetShape() {
         rotatePosition = 0;
@@ -98,16 +73,4 @@ public class ZShape extends ShapeModel {
         squares.get(2).move(startX+UNIT_SIZE, startY+UNIT_SIZE);
         squares.get(3).move(startX+(UNIT_SIZE*2), startY+UNIT_SIZE);
     }
-/* 
-    public boolean getActive() {
-        return active;
-    }
-    public void setActive(boolean value) {
-        active = value;
-    }
-
-    public ArrayList<Square> getSquares() {
-        return squares;
-    }
-    */
 }

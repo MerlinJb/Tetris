@@ -152,7 +152,7 @@ public class GamePanel extends JPanel implements ActionListener {
             System.out.println("round");
 
             for (ShapeModel shape : shapes) {
-                if (shape.move(shape.getSquares(), rows)) {
+                if (shape.move(rows)) { //shape.getSquares(), 
                     shape.setActive(false);
                     addToRow(shape.getSquares());
                     break;
@@ -238,7 +238,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
         for (ShapeModel shape : shapes) {
             if (shape.getActive()) {
-                shape.draw(g, shape.getSquares());
+                shape.draw(g);
                 break;
             }
             
@@ -248,7 +248,7 @@ public class GamePanel extends JPanel implements ActionListener {
         public void keyPressed(KeyEvent e) {
             for (ShapeModel shape : shapes) {
                 if (shape.getActive()) {
-                    shape.keyPressed(e, shape.getSquares(), rows);
+                    shape.keyPressed(e, rows); //, shape.getSquares()
                 }
             }
 

@@ -2,25 +2,15 @@ package Blocks;
 
 import Objects.ShapeModel;
 import Objects.Square;
-//import java.awt.event.KeyEvent;
-//import java.util.ArrayList;
 import static Main.GamePanel.UNIT_SIZE;
 
 public class IShape extends ShapeModel {
-/*
-    private ArrayList<Square> squares;
-    private boolean active;
-    private int rotatePosition;
-    private int startX, startY;
- */
-    public IShape(boolean hexagon, int startX, int startY) {
-        super(hexagon);
-        //squares = new ArrayList<>();
+
+    public IShape(boolean active, int startX, int startY) {
+        super(active);
         this.startX = startX;
         this.startY = startY;
         addSquares();
-        //active = false;
-        //rotatePosition = 0;
     }
     public void addSquares() {
         squares.add(new Square(1, startX-UNIT_SIZE, startY));
@@ -30,14 +20,14 @@ public class IShape extends ShapeModel {
     }
 
     @Override
-    public void rotate() { //göra
+    public void rotate() {
         //todo effektivisera så att jag kanske kan ha funktionen i shapemodel
 
         rotatePosition = rotatePosition == 3 ? 0 : rotatePosition + 1;
 
         switch(rotatePosition) {
             case 0:
-                if (checkCollisionWall(squares) == 1) {
+                if (checkCollisionWall() == 1) {
                     for (Square square : squares) {
                         square.moveLeft();
                         square.moveLeft();
@@ -65,7 +55,7 @@ public class IShape extends ShapeModel {
                 squares.get(3).moveLeft();
                 break;
             case 2:
-                if (checkCollisionWall(squares) == 0) {
+                if (checkCollisionWall() == 0) {
                     for (Square square : squares) {
                         square.moveRight();
                         square.moveRight();
@@ -95,18 +85,6 @@ public class IShape extends ShapeModel {
                 break;
         }
     }
-/*
-    public void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()) {
-            case KeyEvent.VK_UP: case KeyEvent.VK_R:
-                rotate();
-                break;
-            case KeyEvent.VK_SPACE:
-                active = false;
-                break;
-        }
-    }
- */
     public void resetShape() {
         rotatePosition = 0;
         squares.get(0).move(startX-UNIT_SIZE, startY);
@@ -114,16 +92,4 @@ public class IShape extends ShapeModel {
         squares.get(2).move(startX+UNIT_SIZE, startY);
         squares.get(3).move(startX+2*UNIT_SIZE, startY);
     }
-/*
-    public boolean getActive() {
-        return active;
-    }
-    public void setActive(boolean value) {
-        active = value;
-    }
-
-    public ArrayList<Square> getSquares() {
-        return squares;
-    }
-     */
 }
