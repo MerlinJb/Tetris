@@ -80,8 +80,8 @@ public abstract class ShapeModel {
         }
     }
 
-    public boolean move(ArrayList<Square> squares, boolean bool, ArrayList<Row> rows) {
-        if (bool) {
+    public boolean move(ArrayList<Square> squares, ArrayList<Row> rows) {
+        if (active) {
             for (Square square : squares) {
                 if (square.checkGroundCollision()) {
                     return true;
@@ -142,9 +142,6 @@ public abstract class ShapeModel {
                 break;
         }
     }
-
-
-
 
     public abstract void rotate();
     

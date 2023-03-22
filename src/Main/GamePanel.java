@@ -67,8 +67,14 @@ public class GamePanel extends JPanel implements ActionListener {
         jShape = new JShape(false, shapeStartX, shapeStartY);
         lShape = new LShape(false, shapeStartX, shapeStartY);
         sShape = new SShape(false, shapeStartX, shapeStartY);
+
         shapes.add(tShape);
         shapes.add(zShape);
+        shapes.add(oShape);
+        shapes.add(iShape);
+        shapes.add(jShape);
+        shapes.add(lShape);
+        shapes.add(sShape);
     }
     public void addRows() {
         for (int i = 0; i < 20; i++) {
@@ -76,14 +82,14 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
     public void addNextShapes() {
-        nextShape.add(4);
+        //nextShape.add(4);
         for (int i = 0; i < 5; i++) {
             nextShape.add(nextShape());
             System.out.println(nextShape.get(i));
         }
     }
     public static int nextShape() {
-        return random.nextInt(8+1);
+        return random.nextInt(30+1);
     }
     public static void newShape() {
         for (ShapeModel shape : shapes) {
@@ -92,7 +98,7 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
         
-        //System.out.println("är inuti checkactive och nextshape");
+        System.out.println(nextShape.get(0));
         switch (nextShape.get(0)) {
             case 0: case 1: case 2: case 3: //TODO ÄNDRA ORDNINGEN PÅ BLOCKEN, SÅ ATT DEM ÄR I DEN RANGORDNINGEN.
                 tShape.resetShape();
@@ -146,7 +152,7 @@ public class GamePanel extends JPanel implements ActionListener {
             System.out.println("round");
 
             for (ShapeModel shape : shapes) {
-                if (shape.move(shape.getSquares(), shape.getActive(), rows)) {
+                if (shape.move(shape.getSquares(), rows)) {
                     shape.setActive(false);
                     addToRow(shape.getSquares());
                     break;
