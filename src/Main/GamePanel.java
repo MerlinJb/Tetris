@@ -241,14 +241,13 @@ public class GamePanel extends JPanel implements ActionListener {
                 shape.draw(g);
                 break;
             }
-            
         }
     }
     public class MyKeyAdapter extends KeyAdapter {
         public void keyPressed(KeyEvent e) {
             for (ShapeModel shape : shapes) {
                 if (shape.getActive()) {
-                    shape.keyPressed(e, rows); //, shape.getSquares()
+                    shape.keyPressed(e, rows); 
                 }
             }
 

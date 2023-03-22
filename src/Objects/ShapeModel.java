@@ -20,18 +20,17 @@ public abstract class ShapeModel {
         rotatePosition = 0;
     }
 
-    public void moveDown() { //ArrayList<Square> squares
+    public void moveDown() {
         //System.out.println("moved down");
         while (!checkCollisionGround(GamePanel.getRows())) {
             for (Square square : squares) {
                 square.moveDown();
             }
         }
-        //active = false;
         GamePanel.addToRow(squares);
     }
 
-    public int checkCollisionWall() { //ArrayList<Square> squares
+    public int checkCollisionWall() { 
         for (Square square : squares) {
             if (square.checkWallCollision() == 0) {
                 return 0;
@@ -43,7 +42,7 @@ public abstract class ShapeModel {
         return -1;
     }
 
-    public boolean checkCollisionGround(ArrayList<Row> rows) { //ArrayList<Square> squares, 
+    public boolean checkCollisionGround(ArrayList<Row> rows) {  
         for (Square square : squares) {
             if (square.checkGroundCollision(square.getCoordY())) {
                 return true;
@@ -60,7 +59,7 @@ public abstract class ShapeModel {
         return false;
     }
 
-    public boolean checkCollisionRow(ArrayList<Row> rows, int direction) { //ArrayList<Square> squares, 
+    public boolean checkCollisionRow(ArrayList<Row> rows, int direction) { 
         for (Square square : squares) {
             for (Row row : rows) {
                 for (Square square2 : row.getSquares()) {
@@ -74,13 +73,13 @@ public abstract class ShapeModel {
         return false;
     }
 
-    public void draw(Graphics g) { //, ArrayList<Square> squares
+    public void draw(Graphics g) {
         for (Square square : squares) {
             square.draw(g);
         }
     }
 
-    public boolean move(ArrayList<Row> rows) { //ArrayList<Square> squares, 
+    public boolean move(ArrayList<Row> rows) { 
         if (active) {
             for (Square square : squares) {
                 if (square.checkGroundCollision()) {
