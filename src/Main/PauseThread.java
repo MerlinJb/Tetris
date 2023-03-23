@@ -6,7 +6,7 @@ public class PauseThread extends Thread {
     @Override
     public void run() {
         while (!r.isInterrupted()) {
-            System.out.println("running");
+            //System.out.println("running");
         }
     }
     

@@ -85,6 +85,7 @@ public class GamePanel extends JPanel{
     }
 
     public void update() {
+        System.out.println(moving);
         if (moving%10 == 0 && playerAlive)  {
             System.out.println("round");
 
@@ -289,10 +290,12 @@ public class GamePanel extends JPanel{
     }
     public class MyKeyAdapter extends KeyAdapter {
         public void keyPressed(KeyEvent e) {
-            for (ShapeModel shape : shapes) {
-                if (shape.getActive()) {
-                    shape.keyPressed(e, rows); 
-                    break;
+            if (playerAlive && !pauseGame) {
+                for (ShapeModel shape : shapes) {
+                    if (shape.getActive()) {
+                        shape.keyPressed(e, rows); 
+                        break;
+                    }
                 }
             }
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
@@ -301,7 +304,6 @@ public class GamePanel extends JPanel{
                 if (!pauseGame) {
                     resumeGame();
                 }
-                
             }
         }
         public void keyReleased(KeyEvent e) {
@@ -313,9 +315,10 @@ public class GamePanel extends JPanel{
     }
 
     public void resumeGame() {
+        System.out.println("resuming");
         assert pauseThread.isRunning();
         pauseThread.getThread().interrupt();
-        moving = 0;
+        moving = 1;
     }
 
     public static ArrayList<Row> getRows() {
