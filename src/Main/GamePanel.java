@@ -64,9 +64,6 @@ public class GamePanel extends JPanel{
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    update();
-                    repaint();
-                    
                     if (pauseGame) {
                         pauseThread = new PauseThread();
                         pauseThread.getThread().start();
@@ -76,6 +73,10 @@ public class GamePanel extends JPanel{
                             e.printStackTrace();
                         }
                     }
+
+                    update();
+                    repaint();
+
                 }
             };
             timer.scheduleAtFixedRate(task, 0, DELAY); 
@@ -84,7 +85,7 @@ public class GamePanel extends JPanel{
     }
 
     public void update() {
-        if (moving%10 == 0 && playerAlive){
+        if (moving%10 == 0 && playerAlive)  {
             System.out.println("round");
 
             for (ShapeModel shape : shapes) {
@@ -249,7 +250,6 @@ public class GamePanel extends JPanel{
             }
             System.out.println("score: " + score.getScore());
         }
-    
     }
     public static void addToRow(ArrayList<Square> list) {
         for (Row row : rows) {
@@ -295,16 +295,27 @@ public class GamePanel extends JPanel{
                     break;
                 }
             }
-
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                System.out.println("pause");
+                pauseGame = !pauseGame;
+                if (!pauseGame) {
+                    resumeGame();
+                }
+                
+            }
         }
         public void keyReleased(KeyEvent e) {
             System.out.println("released");
             if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                System.out.println("changing to true");
                 ready = true;
-                
             }
         }
+    }
+
+    public void resumeGame() {
+        assert pauseThread.isRunning();
+        pauseThread.getThread().interrupt();
+        moving = 0;
     }
 
     public static ArrayList<Row> getRows() {
