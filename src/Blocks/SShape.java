@@ -19,6 +19,7 @@ public class SShape extends ShapeModel {
         squares.add(new Square( 4, startX, startY+UNIT_SIZE));
     }
 
+    @Override
     public void rotate() {
         //todo effektivisera så att jag kanske kan ha funktionen i shapemodel
 
@@ -64,6 +65,7 @@ public class SShape extends ShapeModel {
         }
     }
 
+    @Override
     public void resetShape() {
         rotatePosition = 0;
         squares.get(0).move(startX, startY);

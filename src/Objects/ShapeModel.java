@@ -143,6 +143,7 @@ public abstract class ShapeModel {
     }
 
     public abstract void rotate();
+    public abstract void resetShape();
     
     public boolean getActive() {
         return active;
@@ -152,6 +153,19 @@ public abstract class ShapeModel {
     }
     public ArrayList<Square> getSquares() {
         return squares;
+    }
+
+    public boolean checkIfCanPlace(Row row) {
+        //System.out.println(row.getSquares());
+        for (Square square : squares) {
+            for (Square rowSquare : row.getSquares()) {
+                if (new Rectangle(square.getCoordX(), square.getCoordY(), UNIT_SIZE, UNIT_SIZE)
+                    .intersects(new Rectangle(rowSquare.getCoordX(), rowSquare.getCoordY(), UNIT_SIZE, UNIT_SIZE))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }

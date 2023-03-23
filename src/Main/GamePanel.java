@@ -10,53 +10,93 @@ import Objects.Score;
 import Objects.ShapeModel;
 import Objects.Square;
 import Blocks.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class GamePanel extends JPanel implements ActionListener {
+public class GamePanel extends JPanel{  
 
     public static Dimension window = new Dimension(420, 600);
     public static final int UNIT_SIZE = window.width/15;
 
     private static Random random = new Random();
-    static Timer timer;
+    
+    private static Score score;
+
+    private PauseThread pauseThread;
+    private Thread t1;
+    private static Timer timer;
+    private static boolean pauseGame = false;
     private final int DELAY = 100;
     public int moving = 0;
 
-    private Score score;
-
     public static final Point startPoint = new Point(UNIT_SIZE*2, UNIT_SIZE);
     public static final Point endPoint = new Point(UNIT_SIZE*12, UNIT_SIZE*20);
-
     public static final int shapeStartX = UNIT_SIZE*5;
     public static final int shapeStartY = 0;
 
     private static ArrayList<Row> rows = new ArrayList<>();
-
+    private static ArrayList<Integer> nextShape = new ArrayList<>();
+    private static ArrayList<ShapeModel> shapes = new ArrayList<>();
     private static TShape tShape;
     private static ZShape zShape;
     private static OShape oShape;
     private static IShape iShape;
     private static JShape jShape;
     private static LShape lShape;
-    private static SShape sShape;
-
-    private static ArrayList<Integer> nextShape = new ArrayList<>();
-    private static ArrayList<ShapeModel> shapes = new ArrayList<>();
+    private static SShape sShape;    
 
     private static boolean ready = true;
+    private static boolean playerAlive = true;
 
     GamePanel() {
         this.setPreferredSize(window);
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
 
-        timer = new Timer(DELAY, this);
         score = new Score(new Point(0,0));
-        timer.start();
 
         addShapes();
         addRows();
         addNextShapes();
 
+        t1 = new Thread(() -> {
+            timer = new Timer();
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    update();
+                    repaint();
+                    
+                    if (pauseGame) {
+                        pauseThread = new PauseThread();
+                        pauseThread.getThread().start();
+                        try {
+                            pauseThread.getThread().join();
+                        } catch(InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            };
+            timer.scheduleAtFixedRate(task, 0, DELAY); 
+        });
+        t1.start();
+    }
+
+    public void update() {
+        if (moving%10 == 0 && playerAlive){
+            System.out.println("round");
+
+            for (ShapeModel shape : shapes) {
+                if (shape.move(rows)) { 
+                    shape.setActive(false);
+                    addToRow(shape.getSquares());
+                    break;
+                }
+            }
+            checkForCompleteRow();
+        }
+        moving++;
     }
 
     public void addShapes() {
@@ -98,39 +138,73 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
         
-        System.out.println(nextShape.get(0));
+        //System.out.println(nextShape.get(0));
         switch (nextShape.get(0)) {
-            case 0: case 1: case 2: case 3: //TODO ÄNDRA ORDNINGEN PÅ BLOCKEN, SÅ ATT DEM ÄR I DEN RANGORDNINGEN.
-                tShape.resetShape();
-                tShape.setActive(true);
+            case 0: case 1: case 2: case 3:
+                sShape.resetShape();
+                if (sShape.checkIfCanPlace(rows.get(0))) {
+                    sShape.setActive(true);
+                }else {
+                    playerLost();
+                } 
                 break;
             case 4: case 5: case 6: case 7: case 8:
                 zShape.resetShape();
-                zShape.setActive(true);
+                if (zShape.checkIfCanPlace(rows.get(0))) {
+                    zShape.setActive(true);
+                }else {
+                    playerLost();
+                }
                 break;
             case 9: case 10: case 11: case 12: case 13:
-                oShape.resetShape();
-                oShape.setActive(true);
+                lShape.resetShape();
+                if (lShape.checkIfCanPlace(rows.get(0))) {
+                    lShape.setActive(true);
+                }else {
+                    playerLost();
+                } 
                 break;
             case 14: case 15: case 16: case 17: case 18:
-                iShape.resetShape();
-                iShape.setActive(true);
-                break;
-            case 19: case 20: case 21: case 22: case 23:
                 jShape.resetShape();
-                jShape.setActive(true);
+                if (jShape.checkIfCanPlace(rows.get(0))) {
+                    jShape.setActive(true);
+                }else {
+                    playerLost();
+                }
+                break;
+            case 19: case 20: case 21: case 22: case 23:       
+                oShape.resetShape();
+                if (oShape.checkIfCanPlace(rows.get(0))) {
+                    oShape.setActive(true);
+                }else {
+                    playerLost();
+                }   
                 break;
             case 24: case 25: case 26: case 27:
-                lShape.resetShape();
-                lShape.setActive(true);
+                iShape.resetShape();
+                if (iShape.checkIfCanPlace(rows.get(0))) {
+                    iShape.setActive(true);
+                }else {
+                    playerLost();
+                }
                 break;
             case 28: case 29: case 30:
-                sShape.resetShape();
-                sShape.setActive(true);
+                tShape.resetShape();
+                if (tShape.checkIfCanPlace(rows.get(0))){
+                    tShape.setActive(true);
+                }else {
+                    playerLost();
+                }
                 break;
         }
         nextShape.remove(0);
         nextShape.add(nextShape());
+    }
+
+    public static void playerLost() {
+        playerAlive = false;
+        System.out.println("player lost the game");
+        System.out.println("the score is " + score.getScore());
     }
 
     public static boolean checkActives() {
@@ -145,26 +219,6 @@ public class GamePanel extends JPanel implements ActionListener {
     //TODO MIRRORING TECHNIC FÖR ATT SE VART BLOCKET KOMMER ATT LANDA NÅGONSTANS.
     //TODO NÄR MAN ROTERAR DEN LÅNGA FYRA BLOCKET NÄR MAN SÄTTER NER DEN SÅ KOMMER ROWEN ATT VARA MER ÄN TIO OCH KOMMERDÅ ATT FYLLA
     //ROWCOMPLETE
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if (moving%10 == 0){
-            System.out.println("round");
-
-            for (ShapeModel shape : shapes) {
-                if (shape.move(rows)) { //shape.getSquares(), 
-                    shape.setActive(false);
-                    addToRow(shape.getSquares());
-                    break;
-                }
-            }
-
-            checkForCompleteRow();
-
-        }
-        repaint();
-        moving++;
-    }
 
     private Row temp;
     private int numberOfRowsCompleted;
@@ -198,7 +252,6 @@ public class GamePanel extends JPanel implements ActionListener {
     
     }
     public static void addToRow(ArrayList<Square> list) {
-        //System.out.println("add to row");
         for (Row row : rows) {
             for (Square square : list) {
                 if (row.intersects(new Rectangle(square.getCoordX(), square.getCoordY(), UNIT_SIZE, UNIT_SIZE))) {
@@ -206,16 +259,7 @@ public class GamePanel extends JPanel implements ActionListener {
                 }
             }
         }
-        /*
-        for (Row row : rows) {
-            System.out.println(row.getSquares().size());
-        } */
-
         newShape();
-
-        //TODO här så nästa shape sätta igång.
-        //TODO LISTA MED NÄSTA SHAPES.
-        //TODO Funktion för att se när spelaren har förlorat.
     }
 
     public void paintComponent(Graphics g) {
@@ -248,6 +292,7 @@ public class GamePanel extends JPanel implements ActionListener {
             for (ShapeModel shape : shapes) {
                 if (shape.getActive()) {
                     shape.keyPressed(e, rows); 
+                    break;
                 }
             }
 
@@ -259,10 +304,8 @@ public class GamePanel extends JPanel implements ActionListener {
                 ready = true;
                 
             }
-            //System.out.println(ready);
         }
     }
-
 
     public static ArrayList<Row> getRows() {
         return rows;

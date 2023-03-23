@@ -59,6 +59,7 @@ public class TShape extends ShapeModel {
         }
     }
 
+    @Override
     public void resetShape() {
         rotatePosition = 0;
         squares.get(0).move(startX, startY);

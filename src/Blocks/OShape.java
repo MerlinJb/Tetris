@@ -24,6 +24,7 @@ public class OShape extends ShapeModel {
         System.out.println("rotate");
     }
 
+    @Override
     public void resetShape() {
         rotatePosition = 0;
         squares.get(0).move(startX, startY);

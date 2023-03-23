@@ -65,7 +65,8 @@ public class ZShape extends ShapeModel {
                 break;
         }
     }
-
+    
+    @Override
     public void resetShape() {
         rotatePosition = 0;
         squares.get(0).move(startX, startY);

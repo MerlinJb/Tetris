@@ -85,6 +85,8 @@ public class IShape extends ShapeModel {
                 break;
         }
     }
+
+    @Override
     public void resetShape() {
         rotatePosition = 0;
         squares.get(0).move(startX-UNIT_SIZE, startY);
