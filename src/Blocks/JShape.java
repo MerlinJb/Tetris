@@ -1,8 +1,9 @@
 package Blocks;
 
-import Objects.ShapeModel;
+import static Panels.GamePanel.UNIT_SIZE;
+
 import Objects.Square;
-import static Main.GamePanel.UNIT_SIZE;
+import Templates.ShapeModel;
 
 public class JShape extends ShapeModel {
 

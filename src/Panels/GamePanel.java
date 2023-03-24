@@ -1,14 +1,15 @@
-package Main;
+package Panels;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
+import Objects.PauseThread;
 import Objects.Row;
 import Objects.Score;
-import Objects.ShapeModel;
 import Objects.Square;
+import Templates.ShapeModel;
 import Blocks.*;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -25,7 +26,7 @@ public class GamePanel extends JPanel{
     private PauseThread pauseThread;
     private Thread t1;
     private static Timer timer;
-    private static boolean pauseGame = false;
+    static boolean pauseGame = false;
     private final int DELAY = 100;
     public int moving = 0;
 
@@ -36,7 +37,7 @@ public class GamePanel extends JPanel{
 
     private static ArrayList<Row> rows = new ArrayList<>();
     private static ArrayList<Integer> nextShape = new ArrayList<>();
-    private static ArrayList<ShapeModel> shapes = new ArrayList<>();
+    static ArrayList<ShapeModel> shapes = new ArrayList<>();
     private static TShape tShape;
     private static ZShape zShape;
     private static OShape oShape;
@@ -46,14 +47,23 @@ public class GamePanel extends JPanel{
     private static SShape sShape;    
 
     private static boolean ready = true;
-    private static boolean playerAlive = true;
+    private static boolean playerAlive;
 
-    GamePanel() {
+    //private static PausePanel pausePanel;
+
+    public GamePanel(boolean active) {
+        /*
         this.setPreferredSize(window);
         this.setFocusable(true);
-        this.addKeyListener(new MyKeyAdapter());
-
+        this.setVisible(active);
+        */
+        //this.requestFocus();
+        //this.addKeyListener(new MyKeyAdapter());
+         
         score = new Score(new Point(0,0));
+        playerAlive = active;
+
+        //pausePanel = new PausePanel();
 
         addShapes();
         addRows();
@@ -64,7 +74,7 @@ public class GamePanel extends JPanel{
             TimerTask task = new TimerTask() {
                 @Override
                 public void run() {
-                    if (pauseGame) {
+                    if (pauseGame) {                       
                         pauseThread = new PauseThread();
                         pauseThread.getThread().start();
                         try {
@@ -85,7 +95,7 @@ public class GamePanel extends JPanel{
     }
 
     public void update() {
-        System.out.println(moving);
+        //System.out.println(moving);
         if (moving%10 == 0 && playerAlive)  {
             System.out.println("round");
 
@@ -288,6 +298,7 @@ public class GamePanel extends JPanel{
             }
         }
     }
+/*
     public class MyKeyAdapter extends KeyAdapter {
         public void keyPressed(KeyEvent e) {
             if (playerAlive && !pauseGame) {
@@ -299,10 +310,14 @@ public class GamePanel extends JPanel{
                 }
             }
             if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                System.out.println("pause");
                 pauseGame = !pauseGame;
                 if (!pauseGame) {
                     resumeGame();
+                }
+                else {
+                    System.out.println("paused");
+                    //setVisible(false);
+                    pausePanel.setVisible(true);
                 }
             }
         }
@@ -313,6 +328,7 @@ public class GamePanel extends JPanel{
             }
         }
     }
+*/
 
     public void resumeGame() {
         System.out.println("resuming");
@@ -329,5 +345,11 @@ public class GamePanel extends JPanel{
     }
     public static void setReady(boolean bool) {
         ready = bool;
+    }
+    public void setPlayerAlive(boolean bool) {
+        playerAlive = bool;
+    }
+    public boolean getPlayerAlive() {
+        return playerAlive;
     }
 }

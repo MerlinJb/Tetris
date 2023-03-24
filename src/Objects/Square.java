@@ -1,14 +1,15 @@
 package Objects;
 
-import Main.GamePanel;
 import java.awt.*;
+
+import Panels.GamePanel;
 
 public class Square {
 
     private Point coord;
     private Color color;
     private int id;
-    private final int UNIT_SIZE = Main.GamePanel.UNIT_SIZE;
+    private final int UNIT_SIZE = Panels.GamePanel.UNIT_SIZE;
 
     public Square(int id, int startX, int startY) {
         coord = new Point(startX, startY);

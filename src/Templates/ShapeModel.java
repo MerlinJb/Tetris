@@ -1,11 +1,13 @@
-package Objects;
+package Templates;
 
-import Main.GamePanel;
+import Objects.Row;
+import Objects.Square;
+import Panels.GamePanel;
+import static Panels.GamePanel.UNIT_SIZE;
+import static Panels.GamePanel.getRows;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import static Main.GamePanel.UNIT_SIZE;
-import static Main.GamePanel.getRows;
 
 public abstract class ShapeModel {
 
@@ -136,7 +138,6 @@ public abstract class ShapeModel {
                     GamePanel.setReady(false);
                     //System.out.println("accepted typed space");
                     moveDown();
-
                 }
                 break;
         }

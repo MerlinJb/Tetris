@@ -1,4 +1,4 @@
-package Main;
+package Objects;
 
 public class PauseThread extends Thread {
     private Thread r = new Thread(this);
