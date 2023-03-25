@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -24,7 +25,7 @@ public class MainPanel extends JPanel implements ActionListener{
     public static Dimension window = new Dimension(420, 600);
     public static final int UNIT_SIZE = window.width/15;
 
-    public MainPanel() {
+    public MainPanel() throws IOException {
         this.setPreferredSize(window);
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
@@ -41,9 +42,6 @@ public class MainPanel extends JPanel implements ActionListener{
         this.add("gamePanel", gamePanel);
         this.add("menuPanel", menuPanel);
         this.add("highScorePanel", highScorePanel);
-
-        //gamePanel.requestFocus();
-        //gamePanel.setPlayerAlive(true);
         
         cardLayout.show(this, "mainPanel");          
     }
@@ -113,7 +111,8 @@ public class MainPanel extends JPanel implements ActionListener{
         System.out.println(e.getSource());
 
         if (e.getSource() == playButton) {
-            showGamePanel();
+            //showGamePanel();
+            highScorePanel.changingHighScoreList("walter", 14);
         }
         else if (e.getSource() == highScoreButton) {
             showHighScorePanel();
