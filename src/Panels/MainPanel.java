@@ -111,8 +111,9 @@ public class MainPanel extends JPanel implements ActionListener{
         System.out.println(e.getSource());
 
         if (e.getSource() == playButton) {
-            //showGamePanel();
-            highScorePanel.changingHighScoreList("walter", 14);
+            showGamePanel();
+            //highScorePanel.changingHighScoreList("walter", 14);
+            
         }
         else if (e.getSource() == highScoreButton) {
             showHighScorePanel();

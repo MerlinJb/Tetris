@@ -20,7 +20,7 @@ public class HighScorePanel extends JPanel implements ActionListener{
 
     private HashMap<String, Integer> scores = new HashMap<>();
     private ArrayList<Player> players = new ArrayList<>();
-    private QuickSort quickSort;
+    //private QuickSort quickSort;
 
     JLabel title = new JLabel("HIGHSCORELIST");
     JButton button1 = new JButton("New Game");
@@ -35,12 +35,15 @@ public class HighScorePanel extends JPanel implements ActionListener{
         this.setLayout(new GridLayout(11, 1, 0, 10));
         button1.addActionListener(this);
 
-        quickSort = new QuickSort();
+        //quickSort = new QuickSort();
 
         loadingTheHighScoreFile();
 
         for (Player player : players) {
             labels.add(new JLabel(player.getName() + " " + player.getScore()));
+        }
+        for (int i = 0; i < players.size(); i++) {
+            this.add(labels.get(i));
         }
 
         addingTheLabels();
@@ -49,9 +52,9 @@ public class HighScorePanel extends JPanel implements ActionListener{
     }
 
     public void addingTheLabels() {
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = 0; i < labels.size(); i++) {
             labels.get(i).setText(players.get(i).getName() + " " + players.get(i).getScore());
-            this.add(labels.get(i));
+            //this.add(labels.get(i));
         }
         
     }
@@ -81,7 +84,7 @@ public class HighScorePanel extends JPanel implements ActionListener{
                 System.out.println("Stopped reading");
             }
         }
-        System.out.println(scores);
+        //System.out.println(scores);
         reader.close();
     }
 
@@ -89,10 +92,28 @@ public class HighScorePanel extends JPanel implements ActionListener{
         players.add(new Player(newName, newScore));
 
         //quicksort algorithm do get the order of the array right in regards to the score of the players
-        System.out.println(players);
-        QuickSort.sort(players, 0, players.size()-1);
-        System.out.println(players);
+        for(Player player : players) {
+            System.out.print(player.getName() + " ");
+        }
+        System.out.println("");
 
+        QuickSort.quickSort(players); //, 0, players.size()-1
+
+        ArrayList<Player> sorted = QuickSort.quickSort(players);
+
+        System.out.println("sorted");
+        for(Player player : sorted) {
+            System.out.print(player.getName() + " ");
+        }
+        System.out.println("");
+
+        //System.out.println(QuickSort.quickSort(players));
+
+        for(Player player : players) {
+            System.out.print(player.getName() + " ");
+        }
+        System.out.println("");
+        addingTheLabels();
     }
 
     public void rewritingTheHighScoreFile() {

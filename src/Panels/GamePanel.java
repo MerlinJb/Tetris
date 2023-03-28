@@ -2,7 +2,7 @@ package Panels;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+//import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 import Objects.PauseThread;
@@ -49,21 +49,9 @@ public class GamePanel extends JPanel{
     private static boolean ready = true;
     private static boolean playerAlive;
 
-    //private static PausePanel pausePanel;
-
     public GamePanel(boolean active) {
-        /*
-        this.setPreferredSize(window);
-        this.setFocusable(true);
-        this.setVisible(active);
-        */
-        //this.requestFocus();
-        //this.addKeyListener(new MyKeyAdapter());
-         
         score = new Score(new Point(0,0));
         playerAlive = active;
-
-        //pausePanel = new PausePanel();
 
         addShapes();
         addRows();
@@ -141,7 +129,7 @@ public class GamePanel extends JPanel{
         }
     }
     public static int nextShape() {
-        return random.nextInt(30+1);
+        return 1; //random.nextInt(30+1);
     }
     public static void newShape() {
         for (ShapeModel shape : shapes) {

@@ -109,7 +109,7 @@ public abstract class ShapeModel {
     public void keyPressed(KeyEvent e, ArrayList<Row> rows) { 
         switch(e.getKeyCode()) {
             case KeyEvent.VK_R: case KeyEvent.VK_UP:
-                rotate();
+                rotate(rows);
                 break;
             case KeyEvent.VK_DOWN:
                 if (!checkCollisionGround(getRows())) {
@@ -143,7 +143,13 @@ public abstract class ShapeModel {
         }
     }
 
-    public abstract void rotate();
+    public abstract void rotate(ArrayList<Row> rows);
+
+    public boolean canRotate(ArrayList<Row> rows) {
+        
+        return true;
+    }
+
     public abstract void resetShape();
     
     public boolean getActive() {
