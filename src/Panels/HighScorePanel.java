@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -18,7 +18,7 @@ import Objects.QuickSort;
 
 public class HighScorePanel extends JPanel implements ActionListener{
 
-    private HashMap<String, Integer> scores = new HashMap<>();
+    //private HashMap<String, Integer> scores = new HashMap<>();
     private ArrayList<Player> players = new ArrayList<>();
     //private QuickSort quickSort;
 
@@ -36,7 +36,7 @@ public class HighScorePanel extends JPanel implements ActionListener{
         button1.addActionListener(this);
 
         //quickSort = new QuickSort();
-
+/*
         loadingTheHighScoreFile();
 
         for (Player player : players) {
@@ -48,6 +48,8 @@ public class HighScorePanel extends JPanel implements ActionListener{
 
         addingTheLabels();
 
+
+ */
 
     }
 

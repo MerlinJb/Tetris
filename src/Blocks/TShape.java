@@ -36,18 +36,21 @@ public class TShape extends ShapeModel {
                         square.moveLeft();
                     }
                 }
-                while (!canRotate(rows)) {
-                    for (Square square : squares) {
-                        square.moveUp();
-                    }
-                }
-                
+
                 squares.get(0).moveUp();
                 squares.get(0).moveRight();
                 squares.get(3).moveDown();
                 squares.get(3).moveRight();
                 squares.get(1).moveUp();
                 squares.get(1).moveLeft();
+
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
+                
+                
                  
                 break;
             case 1:
@@ -60,14 +63,17 @@ public class TShape extends ShapeModel {
                     System.out.println(x + " " + y);
                     square.move((int)x, (int)y);
                 }*/
+
+                squares.get(1).moveDown();
+                squares.get(1).moveRight();
+
                 while (!canRotate(rows)) {
                     for (Square square : squares) {
                         square.moveUp();
                     }
                 }
             
-                squares.get(1).moveDown();
-                squares.get(1).moveRight();
+                
                  
                 break;
             case 2:
@@ -76,25 +82,30 @@ public class TShape extends ShapeModel {
                         square.moveRight();
                     }
                 }
+
+                squares.get(0).moveDown();
+                squares.get(0).moveLeft();
+
                 while (!canRotate(rows)) {
                     for (Square square : squares) {
                         square.moveUp();
                     }
                 }
                 
-                squares.get(0).moveDown();
-                squares.get(0).moveLeft();
+                
                  
                 break;
             case 3:
             
+                squares.get(3).moveUp();
+                squares.get(3).moveLeft();
+
                 while (!canRotate(rows)) {
                     for (Square square : squares) {
                         square.moveUp();
                     }
                 }
-                squares.get(3).moveUp();
-                squares.get(3).moveLeft();
+                
                  
                 break;
         }

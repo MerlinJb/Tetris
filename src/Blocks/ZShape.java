@@ -2,6 +2,9 @@ package Blocks;
 
 import static Panels.GamePanel.UNIT_SIZE;
 
+import java.util.ArrayList;
+
+import Objects.Row;
 import Objects.Square;
 import Templates.ShapeModel;
 
@@ -20,7 +23,7 @@ public class ZShape extends ShapeModel {
         squares.add(new Square( 5, startX+(2*UNIT_SIZE), startY+UNIT_SIZE));
     }
     @Override
-    public void rotate() {
+    public void rotate(ArrayList<Row> rows) {
         //todo effektivisera så att jag kanske kan ha funktionen i shapemodel
 
         rotatePosition = rotatePosition == 3 ? 0 : rotatePosition + 1;

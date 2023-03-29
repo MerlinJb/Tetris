@@ -2,6 +2,9 @@ package Blocks;
 
 import static Panels.GamePanel.UNIT_SIZE;
 
+import java.util.ArrayList;
+
+import Objects.Row;
 import Objects.Square;
 import Templates.ShapeModel;
 
@@ -21,7 +24,7 @@ public class IShape extends ShapeModel {
     }
 
     @Override
-    public void rotate() {
+    public void rotate(ArrayList<Row> rows) {
         //todo effektivisera så att jag kanske kan ha funktionen i shapemodel
 
         rotatePosition = rotatePosition == 3 ? 0 : rotatePosition + 1;

@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 //import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Random;
+//import java.util.Random;
 import Objects.PauseThread;
 import Objects.Row;
 import Objects.Score;
@@ -19,7 +19,7 @@ public class GamePanel extends JPanel{
     public static Dimension window = new Dimension(420, 600);
     public static final int UNIT_SIZE = window.width/15;
 
-    private static Random random = new Random();
+    //private static Random random = new Random();
     
     private static Score score;
 
@@ -129,7 +129,7 @@ public class GamePanel extends JPanel{
         }
     }
     public static int nextShape() {
-        return 1; //random.nextInt(30+1);
+        return 28; //random.nextInt(30+1);
     }
     public static void newShape() {
         for (ShapeModel shape : shapes) {

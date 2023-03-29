@@ -147,6 +147,18 @@ public abstract class ShapeModel {
 
     public boolean canRotate(ArrayList<Row> rows) {
         
+        for (Square square : squares) {
+            for (Row row : rows) {
+                for (Square square2 : row.getSquares()) {
+                    if (square.checkRowCollision((square.getCoordX()), square.getCoordY(),
+                            new Rectangle(square2.getCoordX(), square2.getCoordY(), UNIT_SIZE, UNIT_SIZE))) {
+                        System.out.println("false");
+                        return false;
+                    }
+                }
+            }
+        }
+        System.out.println("true");
         return true;
     }
 
