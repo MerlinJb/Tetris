@@ -21,20 +21,17 @@ public class PausePanel extends PanelModel implements ActionListener{
 
     @Override
     public void paintComponent(Graphics g) {
-        // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'paintComponent'");
+
     }
 
     @Override
     public void update() {
-        // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'update'");
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        //throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+
 
         if (e.getSource() == button1) {
             System.out.println("button1 clicked");

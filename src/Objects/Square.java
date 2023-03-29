@@ -77,9 +77,7 @@ public class Square {
         return -1;
     }
 
-    //TODO HIGHSCORE LIST WITH FILEREADER
     //TODO LÄGGA TILL SCORE
-    //TODO PAUSE KNAPP SOM DAVID GJORDE MED THREADS, kanske??
 
 
     public void move(int y) {

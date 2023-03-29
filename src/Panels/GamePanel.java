@@ -3,6 +3,7 @@ package Panels;
 import javax.swing.*;
 import java.awt.*;
 //import java.awt.event.*;
+import java.io.IOException;
 import java.util.ArrayList;
 //import java.util.Random;
 import Objects.PauseThread;
@@ -19,7 +20,6 @@ public class GamePanel extends JPanel{
     public static Dimension window = new Dimension(420, 600);
     public static final int UNIT_SIZE = window.width/15;
 
-    //private static Random random = new Random();
     
     private static Score score;
 
@@ -48,10 +48,11 @@ public class GamePanel extends JPanel{
 
     private static boolean ready = true;
     private static boolean playerAlive;
+    private static boolean playerLost = false;
 
-    public GamePanel(boolean active) {
+    public GamePanel() {
         score = new Score(new Point(0,0));
-        playerAlive = active;
+        playerAlive = false;
 
         addShapes();
         addRows();
@@ -72,7 +73,11 @@ public class GamePanel extends JPanel{
                         }
                     }
 
-                    update();
+                    try {
+                        update();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     repaint();
 
                 }
@@ -82,7 +87,7 @@ public class GamePanel extends JPanel{
         t1.start();
     }
 
-    public void update() {
+    public void update() throws IOException {
         //System.out.println(moving);
         if (moving%10 == 0 && playerAlive)  {
             System.out.println("round");
@@ -96,6 +101,10 @@ public class GamePanel extends JPanel{
             }
             checkForCompleteRow();
         }
+        if (playerLost) {
+            playerLost();
+        }
+
         moving++;
     }
 
@@ -145,7 +154,8 @@ public class GamePanel extends JPanel{
                 if (sShape.checkIfCanPlace(rows.get(0))) {
                     sShape.setActive(true);
                 }else {
-                    playerLost();
+                    //playerLost();
+                    playerLost = true;
                 } 
                 break;
             case 4: case 5: case 6: case 7: case 8:
@@ -153,7 +163,7 @@ public class GamePanel extends JPanel{
                 if (zShape.checkIfCanPlace(rows.get(0))) {
                     zShape.setActive(true);
                 }else {
-                    playerLost();
+                    //playerLost();
                 }
                 break;
             case 9: case 10: case 11: case 12: case 13:
@@ -161,7 +171,7 @@ public class GamePanel extends JPanel{
                 if (lShape.checkIfCanPlace(rows.get(0))) {
                     lShape.setActive(true);
                 }else {
-                    playerLost();
+                    //playerLost();
                 } 
                 break;
             case 14: case 15: case 16: case 17: case 18:
@@ -169,7 +179,7 @@ public class GamePanel extends JPanel{
                 if (jShape.checkIfCanPlace(rows.get(0))) {
                     jShape.setActive(true);
                 }else {
-                    playerLost();
+                    //playerLost();
                 }
                 break;
             case 19: case 20: case 21: case 22: case 23:       
@@ -177,7 +187,7 @@ public class GamePanel extends JPanel{
                 if (oShape.checkIfCanPlace(rows.get(0))) {
                     oShape.setActive(true);
                 }else {
-                    playerLost();
+                    //playerLost();
                 }   
                 break;
             case 24: case 25: case 26: case 27:
@@ -185,7 +195,7 @@ public class GamePanel extends JPanel{
                 if (iShape.checkIfCanPlace(rows.get(0))) {
                     iShape.setActive(true);
                 }else {
-                    playerLost();
+                    //playerLost();
                 }
                 break;
             case 28: case 29: case 30:
@@ -193,7 +203,9 @@ public class GamePanel extends JPanel{
                 if (tShape.checkIfCanPlace(rows.get(0))){
                     tShape.setActive(true);
                 }else {
-                    playerLost();
+                    //playerLost();
+                    playerLost = true;
+                    //playerAlive = false;
                 }
                 break;
         }
@@ -201,10 +213,23 @@ public class GamePanel extends JPanel{
         nextShape.add(nextShape());
     }
 
-    public static void playerLost() {
+    public void playerLost() throws IOException {
         playerAlive = false;
         System.out.println("player lost the game");
         System.out.println("the score is " + score.getScore());
+
+
+        String name = JOptionPane.showInputDialog(this, "Enter username:");
+
+        //System.out.println(name);
+
+        playerLost = false;
+
+        MainPanel.highScorePanel.changingHighScoreList(name, score.getScore());
+
+        //Todo restarting the game or going back to menupanel
+
+
     }
 
     public static boolean checkActives() {
@@ -217,8 +242,6 @@ public class GamePanel extends JPanel{
     }
 
     //TODO MIRRORING TECHNIC FÖR ATT SE VART BLOCKET KOMMER ATT LANDA NÅGONSTANS.
-    //TODO NÄR MAN ROTERAR DEN LÅNGA FYRA BLOCKET NÄR MAN SÄTTER NER DEN SÅ KOMMER ROWEN ATT VARA MER ÄN TIO OCH KOMMERDÅ ATT FYLLA
-    //ROWCOMPLETE
 
     private Row temp;
     private int numberOfRowsCompleted;
@@ -286,37 +309,6 @@ public class GamePanel extends JPanel{
             }
         }
     }
-/*
-    public class MyKeyAdapter extends KeyAdapter {
-        public void keyPressed(KeyEvent e) {
-            if (playerAlive && !pauseGame) {
-                for (ShapeModel shape : shapes) {
-                    if (shape.getActive()) {
-                        shape.keyPressed(e, rows); 
-                        break;
-                    }
-                }
-            }
-            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-                pauseGame = !pauseGame;
-                if (!pauseGame) {
-                    resumeGame();
-                }
-                else {
-                    System.out.println("paused");
-                    //setVisible(false);
-                    pausePanel.setVisible(true);
-                }
-            }
-        }
-        public void keyReleased(KeyEvent e) {
-            System.out.println("released");
-            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-                ready = true;
-            }
-        }
-    }
-*/
 
     public void resumeGame() {
         System.out.println("resuming");

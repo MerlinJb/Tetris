@@ -4,9 +4,7 @@ import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 //import java.util.HashMap;
 
@@ -36,24 +34,21 @@ public class HighScorePanel extends JPanel implements ActionListener{
         button1.addActionListener(this);
 
         //quickSort = new QuickSort();
-/*
+
         loadingTheHighScoreFile();
 
         for (Player player : players) {
             labels.add(new JLabel(player.getName() + " " + player.getScore()));
         }
-        for (int i = 0; i < players.size(); i++) {
+        for (int i = 0; i < 10; i++) { //ska bara visa 10 utav de 10 bästa i highscorelist
             this.add(labels.get(i));
         }
 
-        addingTheLabels();
-
-
- */
+        updatingTheLabels();
 
     }
 
-    public void addingTheLabels() {
+    public void updatingTheLabels() {
         for (int i = 0; i < labels.size(); i++) {
             labels.get(i).setText(players.get(i).getName() + " " + players.get(i).getScore());
             //this.add(labels.get(i));
@@ -63,7 +58,7 @@ public class HighScorePanel extends JPanel implements ActionListener{
 
     private boolean nextLine;
     public void loadingTheHighScoreFile() throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader("Highscorelist.txt"));
+        BufferedReader reader = new BufferedReader(new FileReader("Files/Highscorelist.txt"));
         System.out.println("in readingfile");
 
         nextLine = true;
@@ -79,47 +74,64 @@ public class HighScorePanel extends JPanel implements ActionListener{
 
                 players.add(new Player(name, score));
                 //scores.put(name, num);
-                System.out.println(players);
+                //System.out.println(players);
             }   
             else {
                 nextLine = false;
-                System.out.println("Stopped reading");
+                //System.out.println("Stopped reading");
             }
         }
         //System.out.println(scores);
         reader.close();
     }
 
-    public void changingHighScoreList(String newName, int newScore) {
+    public void changingHighScoreList(String newName, int newScore) throws IOException {
         players.add(new Player(newName, newScore));
 
         //quicksort algorithm do get the order of the array right in regards to the score of the players
+        /*
         for(Player player : players) {
             System.out.print(player.getName() + " ");
-        }
-        System.out.println("");
+        } */
+        //System.out.println("");
 
-        QuickSort.quickSort(players); //, 0, players.size()-1
+        //QuickSort.quickSort(players); //, 0, players.size()-1
 
-        ArrayList<Player> sorted = QuickSort.quickSort(players);
+        //ArrayList<Player> sorted = QuickSort.quickSort(players);
 
-        System.out.println("sorted");
-        for(Player player : sorted) {
+        bubbleSort(players);
+
+        //System.out.println("sorted");
+        for (Player player : players) {
             System.out.print(player.getName() + " ");
         }
         System.out.println("");
 
         //System.out.println(QuickSort.quickSort(players));
 
-        for(Player player : players) {
-            System.out.print(player.getName() + " ");
-        }
-        System.out.println("");
-        addingTheLabels();
+        updatingTheLabels();
+
+        rewritingTheHighScoreFile();
     }
 
-    public void rewritingTheHighScoreFile() {
+    public void rewritingTheHighScoreFile() throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("Files/Highscorelist.txt"));
+        for (Player player : players) {
+            writer.append(player.getName() + " " + player.getScore() + "\n");
+        }
+        writer.close();
+    }
 
+    public void bubbleSort(ArrayList<Player> list) {
+        for (int i = list.size()-1; i >= 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (list.get(j).getScore() < list.get(j+1).getScore()) {
+                    Player temp = list.get(j);
+                    list.set(j, list.get(j+1));
+                    list.set(j+1, temp);
+                }
+            }
+        }
     }
 
 

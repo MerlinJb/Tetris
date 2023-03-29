@@ -20,7 +20,7 @@ public class MainPanel extends JPanel implements ActionListener{
     private JPanel mainPanel;
     private GamePanel gamePanel;
     private MenuPanel menuPanel;
-    private HighScorePanel highScorePanel;
+    public static HighScorePanel highScorePanel;
 
     public static Dimension window = new Dimension(420, 600);
     public static final int UNIT_SIZE = window.width/15;
@@ -32,7 +32,7 @@ public class MainPanel extends JPanel implements ActionListener{
         
         cardLayout = new CardLayout();
         mainPanel = new JPanel();
-        gamePanel = new GamePanel(false);
+        gamePanel = new GamePanel();
         menuPanel = new MenuPanel();
         highScorePanel = new HighScorePanel();
         
@@ -57,8 +57,6 @@ public class MainPanel extends JPanel implements ActionListener{
 
         playButton.addActionListener(this);
         highScoreButton.addActionListener(this);
-
-        
     }
 
     public void showMenuPanel() {
@@ -112,8 +110,15 @@ public class MainPanel extends JPanel implements ActionListener{
 
         if (e.getSource() == playButton) {
             showGamePanel();
-            //highScorePanel.changingHighScoreList("walter", 14);
-            
+            /*
+            try {
+                highScorePanel.changingHighScoreList("walter", 14);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+             */
+
         }
         else if (e.getSource() == highScoreButton) {
             showHighScorePanel();
