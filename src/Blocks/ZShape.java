@@ -41,12 +41,22 @@ public class ZShape extends ShapeModel {
                 squares.get(2).moveRight();
                 squares.get(2).moveUp();
                 squares.get(3).moveRight();
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
                 break;
             case 1:
                 squares.get(0).moveRight();
                 squares.get(0).moveRight();
                 squares.get(1).moveDown();
                 squares.get(2).moveDown();
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
                 break;
             case 2:
                 if (checkCollisionWall() == 0) {
@@ -58,6 +68,11 @@ public class ZShape extends ShapeModel {
                 squares.get(0).moveLeft();
                 squares.get(0).moveLeft();
                 squares.get(3).moveDown();
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
                 break;
             case 3:
                 squares.get(0).moveRight();
@@ -66,6 +81,11 @@ public class ZShape extends ShapeModel {
                 squares.get(2).moveLeft();
                 squares.get(3).moveUp();
                 squares.get(3).moveLeft();
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
                 break;
         }
     }

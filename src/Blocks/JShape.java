@@ -43,6 +43,13 @@ public class JShape extends ShapeModel {
                 squares.get(1).moveLeft();
                 squares.get(3).moveRight();
                 squares.get(3).moveDown();
+
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
+
                 break;
             case 1:
                 squares.get(0).moveRight();
@@ -51,6 +58,13 @@ public class JShape extends ShapeModel {
                 squares.get(1).moveRight();
                 squares.get(3).moveLeft();
                 squares.get(3).moveDown();
+
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
+
                 break;
             case 2:
                 if (checkCollisionWall() == 0) {
@@ -65,6 +79,13 @@ public class JShape extends ShapeModel {
                 squares.get(1).moveRight();
                 squares.get(3).moveLeft();
                 squares.get(3).moveUp();
+
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
+
                 break;
             case 3:
                 squares.get(0).moveLeft();
@@ -73,6 +94,12 @@ public class JShape extends ShapeModel {
                 squares.get(1).moveLeft();
                 squares.get(3).moveUp();
                 squares.get(3).moveRight();
+
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
 
                 break;
         }

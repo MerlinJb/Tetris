@@ -29,8 +29,8 @@ public class HighScorePanel extends JPanel implements ActionListener{
     public HighScorePanel() throws IOException {
         //super(false);
         this.add(title);
-        //this.add(button1);
-        this.setLayout(new GridLayout(11, 1, 0, 10));
+        this.add(button1);
+        this.setLayout(new GridLayout(11, 2, 0, 10));
         button1.addActionListener(this);
 
         //quickSort = new QuickSort();
@@ -65,12 +65,10 @@ public class HighScorePanel extends JPanel implements ActionListener{
         while (nextLine) {
             String fileString = reader.readLine();
             if (fileString != null) {
-                //System.out.println(fileString);
 
                 String name = fileString.substring(0, fileString.indexOf(' '));
                 int score = Integer.valueOf(fileString.substring(fileString.lastIndexOf(' ')+1));
 
-                //System.out.println(name + " " + num);
 
                 players.add(new Player(name, score));
                 //scores.put(name, num);
@@ -152,6 +150,7 @@ public class HighScorePanel extends JPanel implements ActionListener{
 
         if (e.getSource() == button1) {
             System.out.println("button1 clicked");
+            //TODO RESTARTING THE GAME
         }
 
     }

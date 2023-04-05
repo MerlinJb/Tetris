@@ -12,6 +12,8 @@ import Objects.Score;
 import Objects.Square;
 import Templates.ShapeModel;
 import Blocks.*;
+
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,7 +21,6 @@ public class GamePanel extends JPanel{
 
     public static Dimension window = new Dimension(420, 600);
     public static final int UNIT_SIZE = window.width/15;
-
     
     private static Score score;
 
@@ -28,6 +29,7 @@ public class GamePanel extends JPanel{
     private static Timer timer;
     static boolean pauseGame = false;
     private final int DELAY = 100;
+    private static Random random;
     public int moving = 0;
 
     public static final Point startPoint = new Point(UNIT_SIZE*2, UNIT_SIZE);
@@ -53,6 +55,7 @@ public class GamePanel extends JPanel{
     public GamePanel() {
         score = new Score(new Point(0,0));
         playerAlive = false;
+        random = new Random();
 
         addShapes();
         addRows();
@@ -88,7 +91,6 @@ public class GamePanel extends JPanel{
     }
 
     public void update() throws IOException {
-        //System.out.println(moving);
         if (moving%10 == 0 && playerAlive)  {
             System.out.println("round");
 
@@ -104,7 +106,6 @@ public class GamePanel extends JPanel{
         if (playerLost) {
             playerLost();
         }
-        //changes
 
         moving++;
     }
@@ -139,7 +140,7 @@ public class GamePanel extends JPanel{
         }
     }
     public static int nextShape() {
-        return 28; //random.nextInt(30+1);
+        return random.nextInt(30+1);
     }
     public static void newShape() {
         for (ShapeModel shape : shapes) {
@@ -147,15 +148,13 @@ public class GamePanel extends JPanel{
                 shape.setActive(false);
             }
         }
-        
-        //System.out.println(nextShape.get(0));
+
         switch (nextShape.get(0)) {
             case 0: case 1: case 2: case 3:
                 sShape.resetShape();
                 if (sShape.checkIfCanPlace(rows.get(0))) {
                     sShape.setActive(true);
                 }else {
-                    //playerLost();
                     playerLost = true;
                 } 
                 break;
@@ -164,7 +163,7 @@ public class GamePanel extends JPanel{
                 if (zShape.checkIfCanPlace(rows.get(0))) {
                     zShape.setActive(true);
                 }else {
-                    //playerLost();
+                    playerLost = true;
                 }
                 break;
             case 9: case 10: case 11: case 12: case 13:
@@ -172,7 +171,7 @@ public class GamePanel extends JPanel{
                 if (lShape.checkIfCanPlace(rows.get(0))) {
                     lShape.setActive(true);
                 }else {
-                    //playerLost();
+                    playerLost = true;
                 } 
                 break;
             case 14: case 15: case 16: case 17: case 18:
@@ -180,7 +179,7 @@ public class GamePanel extends JPanel{
                 if (jShape.checkIfCanPlace(rows.get(0))) {
                     jShape.setActive(true);
                 }else {
-                    //playerLost();
+                    playerLost = true;
                 }
                 break;
             case 19: case 20: case 21: case 22: case 23:       
@@ -188,7 +187,7 @@ public class GamePanel extends JPanel{
                 if (oShape.checkIfCanPlace(rows.get(0))) {
                     oShape.setActive(true);
                 }else {
-                    //playerLost();
+                    playerLost = true;
                 }   
                 break;
             case 24: case 25: case 26: case 27:
@@ -196,7 +195,7 @@ public class GamePanel extends JPanel{
                 if (iShape.checkIfCanPlace(rows.get(0))) {
                     iShape.setActive(true);
                 }else {
-                    //playerLost();
+                    playerLost = true;
                 }
                 break;
             case 28: case 29: case 30:
@@ -204,9 +203,7 @@ public class GamePanel extends JPanel{
                 if (tShape.checkIfCanPlace(rows.get(0))){
                     tShape.setActive(true);
                 }else {
-                    //playerLost();
                     playerLost = true;
-                    //playerAlive = false;
                 }
                 break;
         }
@@ -221,8 +218,6 @@ public class GamePanel extends JPanel{
 
 
         String name = JOptionPane.showInputDialog(this, "Enter username:");
-
-        //System.out.println(name);
 
         playerLost = false;
 
@@ -285,6 +280,7 @@ public class GamePanel extends JPanel{
         newShape();
     }
 
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 

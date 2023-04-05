@@ -15,10 +15,10 @@ import Templates.ShapeModel;
 
 public class MainPanel extends JPanel implements ActionListener{
 
-    private CardLayout cardLayout;
+    private static CardLayout cardLayout;
 
     private JPanel mainPanel;
-    private GamePanel gamePanel;
+    private static GamePanel gamePanel;
     private MenuPanel menuPanel;
     public static HighScorePanel highScorePanel;
 

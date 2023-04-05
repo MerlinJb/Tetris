@@ -105,8 +105,6 @@ public class TShape extends ShapeModel {
                         square.moveUp();
                     }
                 }
-                
-                 
                 break;
         }
     }

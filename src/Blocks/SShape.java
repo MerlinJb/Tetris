@@ -42,12 +42,22 @@ public class SShape extends ShapeModel {
                 squares.get(1).moveRight();
                 squares.get(2).moveUp();
                 squares.get(2).moveLeft();
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
                 break;
             case 1:
                 squares.get(1).moveDown();
                 squares.get(2).moveRight();
                 squares.get(2).moveRight();
                 squares.get(2).moveDown();
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
                 break;
             case 2:
                 if (checkCollisionWall() == 0) {
@@ -59,12 +69,22 @@ public class SShape extends ShapeModel {
                 squares.get(0).moveDown();
                 squares.get(0).moveLeft();
                 squares.get(2).moveLeft();
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
                 break;
             case 3:
                 squares.get(0).moveUp();
                 squares.get(1).moveUp();
                 squares.get(1).moveLeft();
                 squares.get(1).moveLeft();
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
                 break;
         }
     }

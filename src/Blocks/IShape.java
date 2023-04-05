@@ -47,6 +47,12 @@ public class IShape extends ShapeModel {
                 squares.get(3).moveDown();
                 squares.get(3).moveDown();
 
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
+
                 break;
             case 1:
                 squares.get(0).moveUp();
@@ -57,6 +63,13 @@ public class IShape extends ShapeModel {
                 squares.get(3).moveDown();
                 squares.get(3).moveDown();
                 squares.get(3).moveLeft();
+
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
+
                 break;
             case 2:
                 if (checkCollisionWall() == 0) {
@@ -75,6 +88,12 @@ public class IShape extends ShapeModel {
                 squares.get(3).moveLeft();
                 squares.get(3).moveUp();
 
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
+
                 break;
             case 3:
                 squares.get(0).moveUp();
@@ -85,6 +104,12 @@ public class IShape extends ShapeModel {
                 squares.get(3).moveUp();
                 squares.get(3).moveUp();
                 squares.get(3).moveRight();
+
+                while (!canRotate(rows)) {
+                    for (Square square : squares) {
+                        square.moveUp();
+                    }
+                }
 
                 break;
         }
